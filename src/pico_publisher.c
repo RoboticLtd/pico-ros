@@ -44,7 +44,7 @@ int main(int argc, char const *argv[])
 	}
 
 	printf("\rShutting down.\n");
-	//pico_ros_shutdown();
+	pico_ros_shutdown();
 
 	return 0;
 }

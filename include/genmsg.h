@@ -49,8 +49,41 @@ inline void xmlmsg_add_topic(string msg, topic_t* t);
 
 inline void tcpmsg_init(char **buf);
 inline void tcpmsg_add_field(char **buf, const string name, const char* value);
-inline void tcpmsg_add_data(char **buf, const void* data, int data_len);
 inline void tcpmsg_add_raw_data(char **buf, const void* data, int data_len);
 inline void tcpmsg_finalize(char *buf, int len);
+
+#define tcpmsg_add_bool tcpmsg_add_uint8
+#define tcpmsg_add_byte tcpmsg_add_uint8
+#define tcpmsg_add_char tcpmsg_add_uint8
+#define tcpmsg_add_int8 tcpmsg_add_uint8
+#define tcpmsg_add_uint8(buf, data) \
+	tcpmsg_add_raw_data(buf, data, 1);
+
+#define tcpmsg_add_int16 tcpmsg_add_uint16
+#define tcpmsg_add_uint16(buf, data) \
+	tcpmsg_add_raw_data(buf, data, 2);
+
+#define tcpmsg_add_int32 tcpmsg_add_uint32
+#define tcpmsg_add_uint32(buf, data) \
+	tcpmsg_add_raw_data(buf, data, 4);
+
+#define tcpmsg_add_int64 tcpmsg_add_uint64
+#define tcpmsg_add_uint64(buf, data) \
+	tcpmsg_add_raw_data(buf, data, 8);
+
+#define tcpmsg_add_float32(buf, data) \
+	tcpmsg_add_raw_data(buf, data, 4);
+
+#define tcpmsg_add_float64(buf, data) \
+	tcpmsg_add_raw_data(buf, data, 8);
+
+#define tcpmsg_add_string(buf, data, len) \
+	tcpmsg_add_raw_data(buf, &len, 4); \
+	tcpmsg_add_raw_data(buf, data, len);
+
+#define tcpmsg_add_duration tcpmsg_add_time
+#define tcpmsg_add_time(buf, secs, nsecs) \
+	tcpmsg_add_int32(buf, secs); \
+	tcpmsg_add_int32(buf, nsecs);
 
 #endif

@@ -94,14 +94,6 @@ void tcpmsg_add_field(char **buf, string name, const char* value)
 	*buf += field_len + 4;
 }
 
-void tcpmsg_add_data(char **buf, const void* data, int data_len)
-{
-	memcpy(*buf,(char*)&data_len, 4);
-	memcpy(*buf + 4, data, data_len);
-
-	*buf += data_len + 4;
-}
-
 void tcpmsg_add_raw_data(char **buf, const void* data, int data_len)
 {
 	memcpy(*buf, data, data_len);

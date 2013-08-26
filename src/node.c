@@ -16,7 +16,8 @@ node_t pico_node;
 char request[NODE_MAX_REQUEST_LEN];
 char response[NODE_MAX_RESPONSE_LEN];
 
-const string INTERFACE = "wlan0";
+//const string INTERFACE = "wlan0";
+const string INTERFACE = "eth0";
 
 void node_free(node_t* n)
 {

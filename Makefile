@@ -23,7 +23,7 @@ define uc
 endef
 
 # Add messages and services
-MSGS 	= std_msgs__string
+MSGS 	= std_msgs__string std_msgs__byte
 SRVS	= roscpp_tutorials__TwoInts
 # Add the needed compiler flags associated
 CFLAGS += $(addprefix -D, $(call uc, $(MSGS)))

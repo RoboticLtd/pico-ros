@@ -7,9 +7,10 @@
 int serialize_std_msgs__string(char* const buf, const void* msg)
 {
 	char* data = ((std_msgs__string*)msg)->data;
+	uint32_t len = strlen(data);
 	char* iter = buf;
 	tcpmsg_init(&iter);
-	tcpmsg_add_data(&iter, data, strlen(data));
+	tcpmsg_add_string(&iter, data, len);
 	tcpmsg_finalize(buf, iter - buf);
 	return iter-buf;
 }

@@ -4,7 +4,6 @@
 #include "comms.h"
 #include "types.h"
 
-// TODO: Figure out how to prevent calling param server before initialising the node
 bool pico_ros_init(string node_name)
 {
 	bool res = TRUE;

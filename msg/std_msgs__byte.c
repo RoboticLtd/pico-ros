@@ -12,7 +12,7 @@ int serialize_std_msgs__byte(char* const buf, const void* msg)
 	const uint8_t data = ((std_msgs__byte*)msg)->data;
 	char* iter = buf;
 	tcpmsg_init(&iter);
-	tcpmsg_add_data(&iter, &data, sizeof(uint8_t));
+	tcpmsg_add_byte(&iter, &data);
 	tcpmsg_finalize(buf, iter - buf);
 	return iter-buf;
 }

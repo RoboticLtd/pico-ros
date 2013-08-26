@@ -42,7 +42,7 @@ int serialize_resp_roscpp_tutorials__TwoInts(char* const buf, const void* srv)
 	const roscpp_tutorials__TwoInts* data = srv;
 	buf[0] = 1;
 	char* iter = buf + 1;
-	tcpmsg_add_data(&iter, (char*)(&data->response.sum), 8);
+	tcpmsg_add_int64(&iter, (char*)(&data->response.sum));
 	return iter - buf;
 }
 
