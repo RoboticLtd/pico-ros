@@ -30,15 +30,15 @@
 //
 */
 
-#ifndef ROSCPP_TUTORIALS__TWO_INTS_HEADER
-#define ROSCPP_TUTORIALS__TWO_INTS_HEADER
+#ifndef ROSCPP_TUTORIALS__TWOINTS_HEADER
+#define ROSCPP_TUTORIALS__TWOINTS_HEADER
 
 #include <stdint.h>
 
 #include "genmsg.h"
 
-#ifndef ROSCPP_TUTORIALS__TWO_INTS
-#error using roscpp_tutorials__TwoInts without -DROSCPP_TUTORIALS__TWO_INTS
+#ifndef ROSCPP_TUTORIALS__TWOINTS
+#error Add roscpp_tutorials__TwoInts to the SRVS variable in the Makefile.
 #endif
 
 int serialize_req_roscpp_tutorials__TwoInts(char* const buf, const void* srv);

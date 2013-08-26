@@ -36,7 +36,7 @@
 #include <stdint.h>
 
 #ifndef STD_MSGS__BYTE
-#error using std_msgs__byte without -DSTD_MSGS__BYTE
+#error Add std_msgs__byte to the MSGS variable in the Makefile.
 #endif
 
 int serialize_std_msgs__byte(char* const buf, const void* msg);

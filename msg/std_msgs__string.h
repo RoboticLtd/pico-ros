@@ -37,7 +37,7 @@
 #include <stdlib.h>
 
 #ifndef STD_MSGS__STRING
-#error using std_msgs__string without -DSTD_MSGS__STRING
+#error Add std_msgs__string to the MSGS variable in the Makefile.
 #endif
 
 int serialize_std_msgs__string(char* const buf, const void* msg);

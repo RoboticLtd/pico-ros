@@ -1,4 +1,4 @@
-#ifdef ROSCPP_TUTORIALS__TWO_INTS
+#ifdef ROSCPP_TUTORIALS__TWOINTS
 #include "roscpp_tutorials__TwoInts.h"
 
 #include <stdlib.h>

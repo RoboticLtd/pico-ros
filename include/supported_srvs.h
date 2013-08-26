@@ -35,18 +35,18 @@
 
 #include "service_type.h"
 
-#ifdef ROSCPP_TUTORIALS__TWO_INTS
+#ifdef ROSCPP_TUTORIALS__TWOINTS
 #include "roscpp_tutorials__TwoInts.h"
 #else
-#define ROSCPP_TUTORIALS__TWO_INTS 0
+#define ROSCPP_TUTORIALS__TWOINTS 0
 #endif
 
 #define SUPPORTED_SERVICES_COUNT \
-	( ROSCPP_TUTORIALS__TWO_INTS )
+	( ROSCPP_TUTORIALS__TWOINTS )
 
 static const service_type_t supported_srvs[] =
 {
-#if ROSCPP_TUTORIALS__TWO_INTS
+#if ROSCPP_TUTORIALS__TWOINTS
 	{
 	 "roscpp_tutorials/TwoInts",
 	 "6a2e34150c00229791cc89ff309fff21",
