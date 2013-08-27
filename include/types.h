@@ -98,6 +98,15 @@ string uri_get_rosrpc_string(uri_t* uri);
 
 bool uri_equals(const uri_t* a, const uri_t* b);
 
+/* Time structure */
+typedef struct time
+{
+	int32_t secs;
+	int32_t nsecs;
+} time;
+
+typedef time duration;
+
 /* List structure */
 typedef struct list_item_t
 {

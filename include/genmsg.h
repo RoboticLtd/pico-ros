@@ -82,8 +82,8 @@ inline void tcpmsg_finalize(char *buf, int len);
 	tcpmsg_add_raw_data(buf, data, len);
 
 #define tcpmsg_add_duration tcpmsg_add_time
-#define tcpmsg_add_time(buf, secs, nsecs) \
-	tcpmsg_add_int32(buf, secs); \
-	tcpmsg_add_int32(buf, nsecs);
+#define tcpmsg_add_time(buf, time) \
+	tcpmsg_add_int32(buf, time.secs); \
+	tcpmsg_add_int32(buf, time.nsecs);
 
 #endif

@@ -23,8 +23,10 @@ define uc
 endef
 
 # Add messages and services
-MSGS 	= std_msgs__string std_msgs__byte
+MSGS_ROS 	= std_msgs/String std_msgs/Byte
 SRVS	= roscpp_tutorials__TwoInts
+
+MSGS = $(call lc, $(subst /,__, $(MSGS_ROS)))
 # Add the needed compiler flags associated
 CFLAGS += $(addprefix -D, $(call uc, $(MSGS)))
 CFLAGS += $(addprefix -D, $(call uc, $(SRVS)))
@@ -114,3 +116,6 @@ show_objs:
 
 show_srcs:
 	@echo $(SOURCES)
+
+msgs:
+	@bash $(CURDIR)/msg_gen/msg_gen.sh $(MSGS_ROS)

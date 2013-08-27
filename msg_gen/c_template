@@ -1,15 +1,13 @@
-#ifdef STD_MSGS__STRING
-#include "std_msgs__string.h"
+echo "
+#ifdef ${MESSAGE_NAME_UC}
+#include \"${MESSAGE_NAME}.h\"
 
-#include <stdlib.h>
-#include <string.h>
+#include \"utils.h\"
+#include \"genmsg.h\"
 
-#include "utils.h"
-#include "genmsg.h"
-
-int serialize_std_msgs__string(char* const buf, const void* msg)
+int serialize_${MESSAGE_NAME}(char* const buf, const void* msg)
 {
-	char* data = ((std_msgs__string*)msg)->data;
+	char* data = ((${MESSAGE_NAME}*)msg)->data;
 	uint32_t len = strlen(data);
 
 	char* iter = buf;
@@ -20,7 +18,7 @@ int serialize_std_msgs__string(char* const buf, const void* msg)
 	return iter-buf;
 }
 
-void* deserialize_std_msgs__string(char* const buf)
+void* deserialize_${MESSAGE_NAME}(char* const buf)
 {
 	char* iter = buf;
 
@@ -32,8 +30,8 @@ void* deserialize_std_msgs__string(char* const buf)
 	int field_len = utils_get_int_from_bytes(iter, sizeof(int32_t));
 	iter +=  sizeof(int32_t);
 
-	std_msgs__string* msg =
-		(std_msgs__string*)malloc(sizeof(std_msgs__string));
+	${MESSAGE_NAME}* msg =
+		(${MESSAGE_NAME}*)malloc(sizeof(${MESSAGE_NAME}));
 
 	msg->data = (char*)calloc(sizeof(char), field_len + 1);
 
@@ -43,12 +41,13 @@ void* deserialize_std_msgs__string(char* const buf)
 	return msg;
 }
 
-void free_std_msgs__string(void* msg)
+void free_${MESSAGE_NAME}(void* msg)
 {
-	if(((std_msgs__string*)msg)->data != NULL)
-		free(((std_msgs__string*)msg)->data);
+	if(((${MESSAGE_NAME}*)msg)->data != NULL)
+		free(((${MESSAGE_NAME}*)msg)->data);
 
 	if(msg != NULL) free(msg);
 }
 
 #endif
+"

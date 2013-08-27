@@ -1,3 +1,4 @@
+echo "
 /* /////////////////////////////////////////////////////////////////////////////
 //
 // Copyright (c) 2013, Robotic Ltd.
@@ -17,7 +18,7 @@
 //     contributors may be used to endorse or promote products derived from
 //     this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND
 // ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
 // DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
@@ -30,20 +31,26 @@
 //
 */
 
-#ifndef STD_MSGS__STRING_HEADER
-#define STD_MSGS__STRING_HEADER
+#ifndef ${MESSAGE_NAME_UC}_HEADER
+#define ${MESSAGE_NAME_UC}_HEADER
 
-#ifndef STD_MSGS__STRING
-#error Add std_msgs__string to the MSGS variable in the Makefile.
+#include <string.h>
+#include <stdlib.h>
+
+${DEPENDANCY_INCLUDES}
+
+#ifndef ${MESSAGE_NAME_UC}
+#error Add ${MESSAGE_NAME_ROS} to the MSGS variable in the Makefile.
 #endif
 
-int serialize_std_msgs__string(char* const buf, const void* msg);
-void* deserialize_std_msgs__string(char* const buf);
-void free_std_msgs__string(void* msg);
+int serialize_${MESSAGE_NAME}(char* const buf, const void* msg);
+void* deserialize_${MESSAGE_NAME}(char* const buf);
+void free_${MESSAGE_NAME}(void* msg);
 
-typedef struct std_msgs__string
+typedef struct ${MESSAGE_NAME}
 {
-	char* data;
-} std_msgs__string;
+${STRUCT_FIELDS}
+} ${MESSAGE_NAME};
 
 #endif
+"

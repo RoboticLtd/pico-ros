@@ -9,11 +9,13 @@
 
 int serialize_std_msgs__byte(char* const buf, const void* msg)
 {
-	const uint8_t data = ((std_msgs__byte*)msg)->data;
+	uint8_t data = ((std_msgs__byte*)msg)->data;
+
 	char* iter = buf;
 	tcpmsg_init(&iter);
 	tcpmsg_add_byte(&iter, &data);
 	tcpmsg_finalize(buf, iter - buf);
+
 	return iter-buf;
 }
 
@@ -25,14 +27,10 @@ void* deserialize_std_msgs__byte(char* const buf)
 	//int package_len = utils_get_int_from_bytes(iter, sizeof(int32_t));
 	iter += sizeof(int32_t);
 
-	// Read the length of the field
-	//int field_len = utils_get_int_from_bytes(iter, sizeof(int32_t));
-	iter +=  sizeof(int32_t);
-
 	std_msgs__byte* msg =
 		(std_msgs__byte*)malloc(sizeof(std_msgs__byte));
 
-	memcpy(&msg->data, buf, sizeof(uint8_t));
+	memcpy(&msg->data, iter, sizeof(uint8_t));
 	return msg;
 }
 
