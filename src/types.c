@@ -24,6 +24,7 @@ uri_t* uri_create(const string _hostname, const unsigned short _port)
 
 	strcpy(uri->ip, _hostname);
 	struct hostent *lh = gethostbyname(uri->ip);
+	PRINT("Resolved addr: %d \r\n", lh->h_addr);
 	inet_ntop(AF_INET, lh->h_addr, uri->ip, MAX_URI_STRING_LEN);
 
 	uri->port = _port;

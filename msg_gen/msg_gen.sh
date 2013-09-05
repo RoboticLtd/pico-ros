@@ -1,25 +1,5 @@
 #!/bin/bash
 
-function get_msg_definition {
-	IFS=$'\n'
-	MSG_RAW=(`rosmsg show $1 -r`)
-
-	unset MSG_DEF
-	MSG_DEF=""
-	for l in ${MSG_RAW[*]}; do
-
-		if [[ $l != $'#'* ]] && [[ $l != $'\t'* ]] && [[ $l != $' '* ]] && [[ $l != [* ]]; then
-
-			unset IFS
-			words=($l)
-			MSG_DEF="${MSG_DEF[@]} ${words[*]:0:2}"
-			IFS=$'\n'
-		fi
-	done
-	unset IFS
-
-	MSG_DEF=($MSG_DEF)
-}
 
 declare -A c_types;
 c_types["bool"]="uint8_t"
@@ -35,7 +15,7 @@ c_types["int64"]="int64_t"
 c_types["uint64"]="uint64_t"
 c_types["float32"]="float"
 c_types["float64"]="double"
-c_types["string"]="char"*
+c_types["string"]="char*"
 c_types["time"]="time"
 c_types["duration"]="duration"
 c_types["bool[]"]="uint8_t*"
@@ -55,8 +35,41 @@ c_types["string[]"]="char**"
 c_types["time[]"]="time*"
 c_types["duration[]"]="duration*"
 
+declare -A msg_types;
+for key in ${!c_types[*]}; do
+	msg_types[${key}]=${c_types[${key}]}
+done
 
 msgs=("sensor_msgs/Image") #($@)
+
+function get_msg_definition {
+	IFS=$'\n'
+	MSG_RAW=(`rosmsg show $1 -r`)
+
+	unset MSG_DEF
+	MSG_DEF=""
+	for l in ${MSG_RAW[*]}; do
+
+		if [[ $l =~ ^[a-zA-Z] ]]; then
+			unset IFS
+			words=($l)
+			MSG_DEF="${MSG_DEF[@]} ${words[*]:0:2}"
+			IFS=$'\n'
+		fi
+	done
+	unset IFS
+
+	MSG_DEF=($MSG_DEF)
+}
+
+function create_serialize {
+	MSG_SER=""
+
+	for w in ${struct_name_type}; do
+		echo $w
+	done
+}
+
 
 
 while((${#msgs[*]} > 0)); do
@@ -64,11 +77,14 @@ while((${#msgs[*]} > 0)); do
 	MESSAGE_NAME_ROS=${m}
 	MESSAGE_NAME=${MESSAGE_NAME_ROS/"/"/__}
 	MESSAGE_NAME_UC=`echo ${MESSAGE_NAME} | tr [:lower:] [:upper:]`
-	DEPENDANCY_INCLUDES=""
+
 
 	get_msg_definition ${MESSAGE_NAME_ROS}
 	STRUCT_FIELDS=""
-	#echo "Message $m:   ${MSG_DEF[*]}"
+	DEPENDENCIES=""
+
+	struct_name_type=""
+
 	for ((i=0; i<${#MSG_DEF[*]}; i+=2)); do
 
 		# Is the current field not a primitive type
@@ -78,18 +94,29 @@ while((${#msgs[*]} > 0)); do
 				MSG_DEF[$i]="std_msgs/Header"
 			fi
 
-			echo "Adding dependancy: ${MSG_DEF[$i]}"
+			if [[ ${!msg_types[*]} != *${MSG_DEF[$i]}* ]]; then
 
-			msgs=("${msgs[@]}" "${MSG_DEF[$i]}")
-			c_types[${MSG_DEF[$i]}]=${MSG_DEF[$i]/"/"/__}
-			DEPENDANCY_INCLUDES+="#include<${c_types[${MSG_DEF[$i]}]}.h>"$'\n'
+				echo "Adding dependency: ${MSG_DEF[$i]}"
+				msgs=("${msgs[@]}" "${MSG_DEF[$i]}")
+				msg_types[${MSG_DEF[$i]}]=${MSG_DEF[$i]/"/"/__}
+
+			fi
+
+			DEPENDENCY_FLAG=`echo ${msg_types[${MSG_DEF[$i]}]} | tr [:lower:] [:upper:]`
+			DEPENDENCIES+="#ifndef ${DEPENDENCY_FLAG}"$'\n'"#define ${DEPENDENCY_FLAG} 1"$'\n'"#endif"$'\n'
+			DEPENDENCIES+="#include \"${msg_types[${MSG_DEF[$i]}]}.h\""$'\n\n'
 		fi
 
-		STRUCT_FIELDS+="    ${c_types[${MSG_DEF[$i]}]} ${MSG_DEF[$i + 1]};"$'\n'
+		STRUCT_FIELDS+="    ${msg_types[${MSG_DEF[$i]}]} ${MSG_DEF[$i + 1]};"$'\n'
+		struct_name_type+=" ${MSG_DEF[$i]} ${MSG_DEF[$i + 1]}"
+
+		#echo ${struct_name_type[${MSG_DEF[$i + 1]}]}
 	done
 	STRUCT_FIELDS=${STRUCT_FIELDS%$'\n'} # Remove the last new line
 
-	HEADER=`source ./msg_gen/h_template`
+	create_serialize
+
+	#source ./msg_gen/h_template
 
 	echo "========================"
 	msgs=(${msgs[@]:1})

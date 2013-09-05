@@ -28,12 +28,14 @@ void* deserialize_std_msgs__string(char* const buf)
 	//int package_len = utils_get_int_from_bytes(iter, sizeof(int32_t));
 	iter += sizeof(int32_t);
 
+	std_msgs__string* msg =
+		(std_msgs__string*)malloc(sizeof(std_msgs__string));
+
 	// Read the length of the field
 	int field_len = utils_get_int_from_bytes(iter, sizeof(int32_t));
 	iter +=  sizeof(int32_t);
 
-	std_msgs__string* msg =
-		(std_msgs__string*)malloc(sizeof(std_msgs__string));
+
 
 	msg->data = (char*)calloc(sizeof(char), field_len + 1);
 

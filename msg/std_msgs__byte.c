@@ -7,6 +7,7 @@
 #include "utils.h"
 #include "genmsg.h"
 
+//tcpmsg_add_string(&iter, msg->data, msg->data_len);
 int serialize_std_msgs__byte(char* const buf, const void* msg)
 {
 	uint8_t data = ((std_msgs__byte*)msg)->data;

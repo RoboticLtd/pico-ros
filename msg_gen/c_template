@@ -1,18 +1,16 @@
 echo "
-#ifdef ${MESSAGE_NAME_UC}
 #include \"${MESSAGE_NAME}.h\"
 
 #include \"utils.h\"
 #include \"genmsg.h\"
 
-int serialize_${MESSAGE_NAME}(char* const buf, const void* msg)
+int serialize_${MESSAGE_NAME}(char* const buf, const void* msg_ptr)
 {
-	char* data = ((${MESSAGE_NAME}*)msg)->data;
-	uint32_t len = strlen(data);
+	${MESSAGE_NAME}* msg = (${MESSAGE_NAME}*)msg_ptr;
 
 	char* iter = buf;
 	tcpmsg_init(&iter);
-	tcpmsg_add_string(&iter, data, len);
+	$(TCPMSG_ADD)
 	tcpmsg_finalize(buf, iter - buf);
 
 	return iter-buf;
@@ -48,6 +46,4 @@ void free_${MESSAGE_NAME}(void* msg)
 
 	if(msg != NULL) free(msg);
 }
-
-#endif
 "

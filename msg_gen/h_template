@@ -34,10 +34,7 @@ echo "
 #ifndef ${MESSAGE_NAME_UC}_HEADER
 #define ${MESSAGE_NAME_UC}_HEADER
 
-#include <string.h>
-#include <stdlib.h>
-
-${DEPENDANCY_INCLUDES}
+${DEPENDENCIES}
 
 #ifndef ${MESSAGE_NAME_UC}
 #error Add ${MESSAGE_NAME_ROS} to the MSGS variable in the Makefile.
